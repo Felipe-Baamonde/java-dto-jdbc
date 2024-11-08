@@ -1,6 +1,7 @@
 package application;
 
 import dao.DaoFactory;
+import dao.DepartmentDao;
 import dao.SellerDao;
 import entities.Department;
 import entities.Seller;
