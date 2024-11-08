@@ -4,6 +4,8 @@ import dao.DaoFactory;
 import dao.DepartmentDao;
 import entities.Department;
 
+import java.util.List;
+
 public class Program2 {
     public static void main(String[] args) {
         DepartmentDao departmentDao = DaoFactory.createDepartmentDao();
@@ -20,5 +22,15 @@ public class Program2 {
         departmentById.setName("Sports");
         departmentDao.update(departmentById);
         System.out.println("Update complete");
+
+        System.out.println("===== Teste 4: Department delete =====");
+        departmentDao.deleteById(8);
+        System.out.println("Delete complete");
+
+        System.out.println("===== Teste 5: Department findAll =====");
+        List<Department> departments = departmentDao.findAll();
+        for (Department department : departments) {
+            System.out.println(department);
+        }
     }
 }

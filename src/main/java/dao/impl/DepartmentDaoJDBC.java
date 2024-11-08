@@ -7,7 +7,10 @@ import entities.Department;
 import entities.Seller;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DepartmentDaoJDBC implements DepartmentDao {
 
@@ -61,7 +64,17 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
     @Override
     public void deleteById(int id) {
-
+        PreparedStatement ps = null;
+        try{
+            ps = conn.prepareStatement("DELETE from department WHERE id = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+        finally{
+            DB.closeStatement(ps);
+        }
     }
 
     @Override
@@ -95,6 +108,24 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
     @Override
     public List<Department> findAll() {
-        return List.of();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            ps = conn.prepareStatement("SELECT * from department order by Name");
+            rs = ps.executeQuery();
+            List<Department> departments = new ArrayList<>();
+            while(rs.next()){
+                Department department = instanceDepartment(rs);
+                departments.add(department);
+            }
+
+            return departments;
+        }catch (SQLException e){
+            throw new DbException(e.getMessage());
+        }
+        finally {
+            DB.closeStatement(ps);
+            DB.closeResultSet(rs);
+        }
     }
 }
