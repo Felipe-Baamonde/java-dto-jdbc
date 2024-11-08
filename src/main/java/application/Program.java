@@ -33,5 +33,11 @@ public class Program {
         sellerDao.insert(newSeller);
         System.out.println("Inserted, new Id = " + newSeller.getId());
 
+        System.out.println("\n===== Teste 5: seller update =====");
+        Seller sellerUpdate = sellerDao.findById(1);
+        sellerUpdate.setName("Felipe Baamonde");
+        sellerDao.update(sellerUpdate);
+        System.out.println("Update Complete");
+
     }
 }
